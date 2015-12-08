@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app version="3.0"
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+ 
+   <!-- To save as "hello\WEB-INF\web.xml" -->
+ 
+   <servlet>
+      <servlet-name>Welcome</servlet-name>
+      <servlet-class>WelcomeServlet</servlet-class>
+   </servlet>
+ <servlet>
+      <servlet-name>LoginQuery</servlet-name>
+      <servlet-class>LoginQueryServlet</servlet-class>
+   </servlet>
+<servlet>
+      <servlet-name>LoginQuery2</servlet-name>
+      <servlet-class>LoginQueryServlet2</servlet-class>
+   </servlet>
+<servlet>
+      <servlet-name>LoginQuery3</servlet-name>
+      <servlet-class>LoginQueryServlet3</servlet-class>
+   </servlet>
+ <servlet>
+      <servlet-name>CreateAccount</servlet-name>
+      <servlet-class>CreateAccountServlet</servlet-class>
+   </servlet>
+ <servlet>
+      <servlet-name>Account</servlet-name>
+      <servlet-class>AccountServlet</servlet-class>
+   </servlet>
+<servlet>
+      <servlet-name>EditAccount</servlet-name>
+      <servlet-class>EditAccountServlet</servlet-class>
+   </servlet>
+<servlet>
+      <servlet-name>DoEditAccount</servlet-name>
+      <servlet-class>DoEditAccountServlet</servlet-class>
+   </servlet>
+<servlet>
+      <servlet-name>AccessCharacter</servlet-name>
+      <servlet-class>AccessCharacterServlet</servlet-class>
+   </servlet>
+<servlet>
+      <servlet-name>AddCharacter</servlet-name>
+      <servlet-class>AddCharacterServlet</servlet-class>
+   </servlet>
+<servlet>
+      <servlet-name>DoAddCharacter</servlet-name>
+      <servlet-class>DoAddCharacterServlet</servlet-class>
+   </servlet>
+
+   <!-- Note: All <servlet> elements MUST be grouped together and
+         placed IN FRONT of the <servlet-mapping> elements -->
+ 
+   <servlet-mapping>
+      <servlet-name>Welcome</servlet-name>
+      <url-pattern>/welcome</url-pattern>
+   </servlet-mapping>
+<servlet-mapping>
+      <servlet-name>LoginQuery</servlet-name>
+      <url-pattern>/loginquery</url-pattern>
+   </servlet-mapping>
+<servlet-mapping>
+      <servlet-name>LoginQuery2</servlet-name>
+      <url-pattern>/loginquery2</url-pattern>
+   </servlet-mapping>
+<servlet-mapping>
+      <servlet-name>LoginQuery3</servlet-name>
+      <url-pattern>/loginquery3</url-pattern>
+   </servlet-mapping>
+<servlet-mapping>
+      <servlet-name>CreateAccount</servlet-name>
+      <url-pattern>/createaccount</url-pattern>
+   </servlet-mapping>
+<servlet-mapping>
+      <servlet-name>Account</servlet-name>
+      <url-pattern>/account</url-pattern>
+   </servlet-mapping>
+<servlet-mapping>
+      <servlet-name>EditAccount</servlet-name>
+      <url-pattern>/editaccount</url-pattern>
+   </servlet-mapping>
+<servlet-mapping>
+      <servlet-name>DoEditAccount</servlet-name>
+      <url-pattern>/doeditaccount</url-pattern>
+   </servlet-mapping>
+<servlet-mapping>
+      <servlet-name>AccessCharacter</servlet-name>
+      <url-pattern>/accesscharacter</url-pattern>
+   </servlet-mapping>
+<servlet-mapping>
+      <servlet-name>AddCharacter</servlet-name>
+      <url-pattern>/addcharacter</url-pattern>
+   </servlet-mapping>
+<servlet-mapping>
+      <servlet-name>DoAddCharacter</servlet-name>
+      <url-pattern>/doaddcharacter</url-pattern>
+   </servlet-mapping>
+</web-app>
