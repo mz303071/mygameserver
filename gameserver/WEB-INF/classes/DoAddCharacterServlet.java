@@ -56,10 +56,22 @@ String CID=charinfo.getString("CID");
 			stmt.executeUpdate("insert into playerownscharacters (search_PID,search_CID) values('"+PID+ 
 
 "','"+CID+"')");
+			stmt.executeUpdate("insert into inventorys (InventoryName,InventoryMoney) values('on person',200.0)");
+//INSERT INTO table_name (col1, col2,...) VALUES ('val1', 'val2'...);
+//SELECT LAST_INSERT_ID();
+			ResultSet inventidq=stmt.executeQuery("Select LAST_INSERT_ID()");
+			inventidq.next();
+			
+			stmt.executeUpdate("insert into inventoryowner (s_CID,s_INID) values('"+CID+"','"+inventidq.getString(1)+"')");
+
 			out.println("Success");
 			out.println("<form method=\"get\" action=\"http://localhost:9999/gameserver/character\">");
-			out.println("<input type=\"hidden\" name=\"cname\" value=\""+charinfo.getString("CID")+"\">");
-			out.println("<input type=\"submit\" value=\"view Character\"></form>");
+			out.println("<input type=\"hidden\" name=\"CID\" value=\""+CID+"\">");
+			out.println("<input type=\"submit\" value=\"View Character\"></form>");
+			//out.println("<form method=\"get\" action=\"http://localhost:9999/gameserver/account\">");
+			//out.println("<input type=\"hidden\" name=\"uname\" value=\""+request.getParameter("uname")+"\">");
+			//out.println("<input type=\"hidden\" name=\"pswrd\" value=\""+request.getParameter("pswrd")+"\">");
+			//out.println("<input type=\"submit\" value=\"Back to Account\"></form>");
 		}
 	} else{
 		out.println("Error No user Exists");

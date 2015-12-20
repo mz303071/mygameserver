@@ -4,7 +4,7 @@ import java.sql.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
  
-public class AddCharacterServlet extends HttpServlet {  // JDK 6 and above only
+public class AddInventoryServlet extends HttpServlet {  // JDK 6 and above only
  
    // The doGet() runs once per HTTP GET request to this servlet.
    @Override
@@ -27,31 +27,42 @@ public class AddCharacterServlet extends HttpServlet {  // JDK 6 and above only
          stmt = conn.createStatement();
  
          // Step 3: Execute a SQL SELECT query
-         String sqlStr = "select * from players where Username = "
-              + "'" + request.getParameter("uname") + "'";
+         String sqlStr = "select * from characters where CID = " + request.getParameter("CID");
          // Print an HTML page as the output of the query
          out.println("<html><head><title>Login</title></head><body>");
-         //out.println("<p>You query is: " + sqlStr + "</p>"); // Echo for debugging 
-	 ResultSet rset = stmt.executeQuery(sqlStr);  // Send the query to the server
- 	 if(rset.next()){
-		out.println("<h3>Character Creation</h3>");
-		out.println("<form method=\"get\" action=\"http://localhost:9999/gameserver/doaddcharacter\">");
-		out.println("<input type=\"hidden\" name=\"uname\" value=\""+request.getParameter("uname")+"\">");
-		out.println("Character Name: <input type=\"text\" name=\"cname\" value=\"MyCharName\"><br>Race:<br>"); 
-	  	ResultSet raceset=stmt.executeQuery("select * from races");
-		while(raceset.next()){
-			out.println("<input type=\"radio\" name=\"rid\" value=\""+raceset.getString("RID")+"\">"+raceset.getString("RaceName")+"<br>");
-		}
+         out.println("<h3>Inventory Creation</h3>");
+	 //out.println("<p>You query is: " + sqlStr + "</p>"); // Echo for debugging 
+	 ResultSet cset = stmt.executeQuery(sqlStr);  // Send the query to the server
+ 	 if(cset.next()){
+		sqlStr="select Count(s_CID) from inventoryowner where s_CID="+request.getParameter("CID");
+		//out.println("<p>You query is: " + sqlStr + "</p>"); // Echo for debugging 
+		ResultSet icount=stmt.executeQuery(sqlStr);  // Send the query to the server
+		
+		
+ 	        
+		icount.next();
+		out.println("<form method=\"get\" action=\"http://localhost:9999/gameserver/doaddinventory\">");
+		out.println("<input type=\"hidden\" name=\"CID\" value=\""+request.getParameter("CID")+"\">");
+		out.println("<table border=\"1\" style=\"width:50%\">");
+		out.println("<tr><th>Inventory Name:</th><th><input type=\"text\" name=\"InventoryName\" value=\"MyInventory"+icount.getString(1)+"\"></th></tr>"); 
+		
+	  	out.println("<tr><th>CashAmmount:</th><th> $<input type=\"float\" name=\"InventoryMoney\" value=\"200\"></th></tr>"); 
+		out.println("</table>");
 		out.println("<input type=\"submit\" value=\"Create\"></form>");
+		
 	} else{
 		out.println("Error No user Exists");
 	}
-        out.println("</body></html>");
+        
      } catch (SQLException ex) {
-        ex.printStackTrace();
-	//out.println("<dialog open>"+ex.getMessage()+"</dialog>");
-        out.close();
+       out.println("<dialog open>");
+	StringWriter sw = new StringWriter();
+	ex.printStackTrace(new PrintWriter(sw));
+	out.println(sw.toString());
+	out.println("</dialog>");
+        //ex.printStackTrace();
      } finally {
+	out.println("</body></html>");
         out.close();  // Close the output writer
         try {
            // Step 5: Close the resources

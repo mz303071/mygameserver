@@ -54,7 +54,7 @@ public class AccountServlet extends HttpServlet {  // JDK 6 and above only
 	//out.println("<p>"+sqlStr2+"</p>");
 	out.println("<table border=\"1\" style=\"width:50%\"><tr><th>Character</th><th>  LVL  </th><th>  Options  </th></tr>");		
 	while(rset2.next()){
-        	out.println("<tr><td>"+ rset2.getString("CharacterName")+"</td><td>"+rset2.getString("CharacterLevel")+"</td><td><form method=\"get\" action=\"http://localhost:9999/gameserver/accesscharacter\">"+"<input type=\"hidden\" value=\""+rset2.getString("CharacterName")+"\" name=\"charname\"><input type=\"submit\" value=\"Sign In\"></form><td></tr>");
+        	out.println("<tr><td>"+ rset2.getString("CharacterName")+"</td><td>"+rset2.getString("CharacterLevel")+"</td><td><form method=\"get\" action=\"http://localhost:9999/gameserver/character\">"+"<input type=\"hidden\" value=\""+rset2.getString("CID")+"\" name=\"CID\"><input type=\"submit\" value=\"Sign In\"></form><td></tr>");
          
 	}}
 	out.println("</table>");

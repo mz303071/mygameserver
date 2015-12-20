@@ -27,41 +27,55 @@ public class CharacterServlet extends HttpServlet {  // JDK 6 and above only
          stmt = conn.createStatement();
  
          // Step 3: Execute a SQL SELECT query
-         String sqlStr = "select * from players where Username='" + request.getParameter("uname") + "' and Password ='"+request.getParameter("pswrd")+"'";
+         String sqlStr = "select * from characters where CID='" + request.getParameter("CID") +"'";
               //+ " and qty > 0 order by price desc";
  	 
 	
 	 out.println("<html><head><title>Login</title></head><body>");
 	//out.println("<p>You query is: " + sqlStr + "</p>"); 
-	ResultSet rset = stmt.executeQuery(sqlStr);
-	if(rset.next()){
+	ResultSet cset = stmt.executeQuery(sqlStr);
+	String charname="";
+	String charlevel="";
+	String charraceid="";
+	if(cset.next()){
+		
+		charname=cset.getString("CharacterName");
+		charlevel=cset.getString("CharacterLevel");
+		charraceid=cset.getString("search_RID");
 	//out.println("<p>query is processed</p>");
-	out.println("<p>Account Details</p>");
+	out.println("<p>Character Details</p>");
 	out.println("<table border=\"1\" style=\"width:50%\">");
-	out.println("<tr><td>FirstName</td><td>"+rset.getString("FirstName")+"</td></tr>");
-	out.println("<tr><td>LastName</td><td>"+rset.getString("LastName")+"</td></tr>");
-	out.println("<tr><td>UserName</td><td>"+rset.getString("Username")+"</td></tr>");
-	out.println("<tr><td>Password</td><td>"+rset.getString("Password")+"</td></tr>");
+	out.println("<tr><td>Character Name</td><td>"+charname+"</td></tr>");
+	out.println("<tr><td>Character Level</td><td>"+charlevel+"</td></tr>");
+	ResultSet rset =stmt.executeQuery("select * from races where RID='"+charraceid+"'");
+	//out.println("<p>query is processed</p>");
+	if(rset.next())
+	out.println("<tr><td>Character Race</td><td>"+rset.getString("RaceName")+"</td></tr>");
+
 	out.println("</table>");
-	out.println("<form method=\"get\" action=\"http://localhost:9999/gameserver/editaccount\">");
-	out.println("<input type=\"hidden\" value=\""+request.getParameter("uname")+"\" name=\"uname\">");
-	out.println("<input type=\"hidden\" value=\""+request.getParameter("pswrd")+"\" name=\"pswrd\">");
-	out.println("<input type=\"submit\" value=\"Edit Account\"></form>");
+	//out.println("<form method=\"get\" action=\"http://localhost:9999/gameserver/editcharacter\">");
+	//out.println("<input type=\"hidden\" value=\""+request.getParameter("CID")+"\" name=\"CID\">");
+	//out.println("<input type=\"submit\" value=\"Edit Character\"></form>");
 	 // SQL SELECT query
-         String sqlStr2 = "select * from characters where CID in (select search_CID from playerownscharacters where search_PID = "+ rset.getString("PID")+")";
+         String sqlStr2 = "select * from inventorys where INID in (select s_INID from inventoryowner where s_CID = "+ request.getParameter("CID")+")";
 	//out.println("<p>"+sqlStr2+"</p>");
-         ResultSet rset2 = stmt.executeQuery(sqlStr2);  // Send the query to the server
+         ResultSet oset = stmt.executeQuery(sqlStr2);  // Send the query to the server
 	//out.println("<p>"+sqlStr2+"</p>");
-	out.println("<table border=\"1\" style=\"width:50%\"><tr><th>Character</th><th>  LVL  </th><th>  Options  </th></tr>");		
-	while(rset2.next()){
-        	out.println("<tr><td>"+ rset2.getString("CharacterName")+"</td><td>"+rset2.getString("CharacterLevel")+"</td><td><form method=\"get\" action=\"http://localhost:9999/gameserver/accesscharacter\">"+"<input type=\"hidden\" value=\""+rset2.getString("CharacterName")+"\" name=\"charname\"><input type=\"submit\" value=\"Sign In\"></form><td></tr>");
+	out.println("<table border=\"1\" style=\"width:50%\"><tr><th>Inventory Name</th><th>ACCESS</th></tr>");		
+	while(oset.next()){
+        	out.println("<tr><td>"+ oset.getString("InventoryName")+"</td><td><form method=\"get\" action=\"http://localhost:9999/gameserver/inventory\">"+"<input type=\"hidden\" value=\""+oset.getString("INID")+"\" name=\"INID\"><input type=\"submit\" value=\"Edit Inventory\"></form><td></tr>");
          
 	}}
 	out.println("</table>");
-	out.println("<form method=\"get\" action=\"http://localhost:9999/gameserver/addcharacter\"><input type=\"hidden\" value=\""+request.getParameter("uname")+"\" name=\"uname\"><input type=\"submit\" value=\"Add Character\"></form>"); 
-        out.println("</body></html>");
+	out.println("<form method=\"get\" action=\"http://localhost:9999/gameserver/addinventory\"><input type=\"hidden\" value=\""+request.getParameter("CID")+"\" name=\"CID\"><input type=\"submit\" value=\"Add Inventory\"></form>"); 
+	out.println("</body></html>");
      } catch (SQLException ex) {
-        ex.printStackTrace();
+ 	out.println("<dialog open>");
+	StringWriter sw = new StringWriter();
+	ex.printStackTrace(new PrintWriter(sw));
+	out.println(sw.toString());
+	out.println("</dialog>");
+        //ex.printStackTrace();
      } finally {
         out.close();  // Close the output writer
         try {

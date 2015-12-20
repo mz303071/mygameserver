@@ -43,6 +43,10 @@ public class CreateAccountServlet extends HttpServlet {  // JDK 6 and above only
 		stmt.executeUpdate("insert into players (Username,Password) values (\'"+request.getParameter("uname")+"\',\'"+request.getParameter("pswrd")+"\');");
 		// Print a paragraph <p>...</p> for each record
         	out.println("<h3>Success, Welcome "+ request.getParameter("uname")+"</h3>");
+		out.println("<form method=\"get\" action=\"http://localhost:9999/gameserver/account\">");
+		out.println("<input type=\"hidden\" name=\"uname\" value=\""+request.getParameter("uname")+"\">");
+		out.println("<input type=\"hidden\" name=\"pswrd\" value=\""+request.getParameter("pswrd")+"\">");
+		out.println("<input type=\"submit\" value=\"Go To Account\"></form>");
 		
 	}
         out.println("</body></html>");
